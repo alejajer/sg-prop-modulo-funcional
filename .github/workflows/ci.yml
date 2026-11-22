@@ -1,0 +1,29 @@
+name: CI - Verificacion de Calidad SG-PROP
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Obtener codigo fuente
+        uses: actions/checkout@v4
+
+      - name: Configurar entorno PHP 8.2
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: phpcs, phpunit
+
+      - name: Verificar sintaxis PHP
+        run: find src tests -name "*.php" -print0 | xargs -0 -n1 -P4 php -l
+
+      - name: Ejecutar Linter (PSR-12)
+        run: phpcs --standard=PSR12 src/ tests/
+
+      - name: Ejecutar Pruebas Unitarias
+        run: phpunit tests/
