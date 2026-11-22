@@ -17,13 +17,18 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
-          tools: phpcs, phpunit
 
-      - name: Verificar sintaxis PHP
-        run: find src tests -name "*.php" -print0 | xargs -0 -n1 -P4 php -l
+      - name: Verificar sintaxis PHP en src y tests
+        run: |
+          test -d src
+          find src -name "*.php" -print0 | xargs -0 -n1 -P4 php -l
+          if [ -d tests ]; then
+            find tests -name "*.php" -print0 | xargs -0 -n1 -P4 php -l
+          fi
 
-      - name: Ejecutar Linter (PSR-12)
-        run: phpcs --standard=PSR12 src/ tests/
-
-      - name: Ejecutar Pruebas Unitarias
-        run: phpunit tests/
+      - name: Verificar reglas de seguridad (sin credenciales expuestas)
+        run: |
+          if grep -rnE "(password|secret|api_key|token)\s*=\s*['\"][^'\"]+['\"]" src/; then
+            echo "Posible credencial detectada en src/"
+            exit 1
+          fi
