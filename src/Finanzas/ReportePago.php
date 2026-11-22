@@ -54,6 +54,13 @@ final class ReportePago
         return $this->referenciaBancaria;
     }
 
+public function getFechaTransaccion(): string
+{
+    return $this->fechaTransaccion;
+}
+
+
+    
     public function getMontoReportado(): float
     {
         return round($this->montoReportado, 2);
