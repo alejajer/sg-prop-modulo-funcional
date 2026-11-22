@@ -16,3 +16,5 @@ Este modulo implementa la gestion de unidades inmobiliarias, emision masiva de a
    ```bash
    git clone [https://github.com/alejajer/sg-prop-modulo-funcional.git](https://github.com/alejajer/sg-prop-modulo-funcional.git)
    cd sg-prop-modulo-funcional
+   
+- Ejecutar pruebas de verificacion: \php tests/FinanzasTest.php`y haz commit con el mensaje:docs(readme): agregar comando de ejecucion de pruebas unitarias`
